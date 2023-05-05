@@ -15,24 +15,27 @@ const CATEGORY = {
   餐飲食品: "https://fontawesome.com/icons/utensils?style=solid",
   其他: "https://fontawesome.com/icons/pen?style=solid"
 }
-const SEED_CATEGORY = []
+const SEED_CATEGORY = Object.entries(CATEGORY).map((category, index) => {
+  return { 
+    id: index,
+    name: category[0],
+    image: category[1]
+  }
+})
 
 db.on('error', () => {
   console.log('mongoose error!')
 })
 
 db.once('open', async () => {
-  Object.keys(CATEGORY).forEach((item, index) => {
-    SEED_CATEGORY.push({
-      id: index,
-      name: item,
-      image: CATEGORY[item]
-    })
-  })
   for(const item of SEED_CATEGORY) {
-    await Category.create({
-      ...item
-    })
+    try {
+      await Category.create({
+        ...item
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
   console.log('CategorySeeder done')
   process.exit()
