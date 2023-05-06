@@ -1,12 +1,10 @@
-const mongoose = require('mongoose')
-const Category = require('../category')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-const db = mongoose.connection
+const mongoose = require('mongoose')
+const Category = require('../category')
+const db = require('../../config/mongoose')
 
 const CATEGORY = {
   家居物業: "https://fontawesome.com/icons/home?style=solid",

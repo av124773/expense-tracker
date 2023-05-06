@@ -2,13 +2,10 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-const mongoose = require('mongoose')
 const Category = require('../category')
 const Record = require('../record')
 const User = require('../user')
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-const db = mongoose.connection
+const db = require('../../config/mongoose')
 
 const SEED_USER = [
   {
