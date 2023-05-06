@@ -1,1 +1,7 @@
-<h1>this is index</h1>
+<ul>
+  {{#each record}}
+  <li>
+    {{this.name}}、{{this.date}}、{{this.amount}}、{{this.userId}}、{{this.categoryId}}
+  </li>
+  {{/each}}
+</ul>
