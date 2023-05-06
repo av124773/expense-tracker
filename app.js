@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose =  require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -22,6 +23,7 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
 
 app.listen(PORT, () => {
