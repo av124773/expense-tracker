@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
 
 const CATEGORY = {
@@ -17,7 +17,6 @@ const CATEGORY = {
 }
 const SEED_CATEGORY = Object.entries(CATEGORY).map((category, index) => {
   return { 
-    id: index,
     name: category[0],
     image: category[1]
   }

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express()
 const PORT = 3001
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
 db.on('error', () => {
   console.log('mongoose error!')
