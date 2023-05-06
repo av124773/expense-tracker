@@ -4,6 +4,17 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
+function DateToString(date) {
+  // getMonth() 是從 0 開始計算的所以要 +1
+  const mm = (date.getMonth() + 1).toString() 
+  const dd = date.getDate().toString() 
+  return [
+    date.getFullYear(), '-',              // year
+    mm.length === 2 ? '' : '0', mm, '-',  // month
+    dd.length === 2 ? '' : '0', dd        // date
+  ].join('')
+}
+
 router.get('/new', (req, res) => {
   return res.render('new')
 })
@@ -22,10 +33,38 @@ router.post('/', async(req, res) => {
       userId: userId,
       categoryId: getCategory._id
     })
-  } catch {
-    console.log(error)
+  } catch (e) {
+    console.log(e)
   }
   res.redirect('/')
+})
+
+router.get('/:id/edit', async (req, res) => {
+  const id = req.params.id
+  const userRecord = await Record.findById(id).lean()
+  const userCategory = await Category.findById(userRecord.categoryId).lean()
+  const userRecoreDate = DateToString(userRecord.date)
+
+  res.render('edit', { record: userRecord, date: userRecoreDate, category: userCategory })
+})
+
+router.post('/:id/edit', async(req, res) => {
+  const id = req.params.id
+  const { name, date, category, amount } = req.body 
+  try {
+    const getCategory = await Category.findOne({ name: category })
+    const getRecord = await Record.findById(id)
+
+    getRecord.name = name
+    getRecord.date = date
+    getRecord.category = getCategory
+    getRecord.amount = amount
+
+    await getRecord.save()
+  } catch (e) {
+    console.log(e)
+  }
+  res.redirect(`/`)
 })
 
 module.exports = router

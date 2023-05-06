@@ -1,19 +1,19 @@
 <a href="/">home</a>
-<form action="/record" method="POST">
+<form action="/record/{{ record._id }}/edit" method="POST">
   <div>
     <label for="name" class="mb-2">名稱:</label>
-    <input type="text" id="name" name="name" class="form-control" placeholder="請輸入名稱" required>
+    <input type="text" id="name" name="name" class="form-control" placeholder="請輸入名稱" value="{{ record.name }}" required>
   </div>
 
   <div>
     <label for="date" class="mb-2">日期:</label>
-    <input type="date" id="date" name="date" class="form-control" placeholder="請輸入日期" required>
+    <input type="date" id="date" name="date" class="form-control" placeholder="請輸入日期" value="{{ date }}" required>
   </div>
 
   <div>
     <label for="category" class="mb-2">類別:</label>
     <select name="category" id="category" required>
-      <option value="">--請選擇類別--</option>
+      <option value="{{ category.name }}">{{ category.name }}</option>
       <option value="家居物業">家居物業</option>
       <option value="交通出行">交通出行</option>
       <option value="休閒娛樂">休閒娛樂</option>
@@ -24,8 +24,8 @@
 
   <div>
     <label for="amount" class="mb-2">金額:</label>
-    <input type="number" id="amount" name="amount" class="form-control" placeholder="請輸入金額" min="0" required>
+    <input type="number" id="amount" name="amount" class="form-control" placeholder="請輸入金額" min="0" value="{{ record.amount }}" required>
   </div>
-  
-  <button type="submit">Create</button>
+
+  <button type="submit">Save</button>
 </form>

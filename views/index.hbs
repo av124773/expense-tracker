@@ -3,6 +3,7 @@
   {{#each record}}
   <li>
     {{this.name}}、{{this.date}}、{{this.amount}}、{{this.userId}}、{{this.categoryId}}
+    <a href="/record/{{this._id}}/edit">edit</a>
   </li>
   {{/each}}
 </ul>
