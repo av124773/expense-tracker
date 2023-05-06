@@ -48,7 +48,7 @@ router.get('/:id/edit', async (req, res) => {
   res.render('edit', { record: userRecord, date: userRecoreDate, category: userCategory })
 })
 
-router.post('/:id/edit', async(req, res) => {
+router.put('/:id', async(req, res) => {
   const id = req.params.id
   const { name, date, category, amount } = req.body 
   try {
@@ -67,7 +67,7 @@ router.post('/:id/edit', async(req, res) => {
   res.redirect(`/`)
 })
 
-router.post('/:id/delete', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = req.params.id
   try {
     const userRecord = await Record.findById(id)

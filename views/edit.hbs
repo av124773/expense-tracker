@@ -1,5 +1,5 @@
 <a href="/">home</a>
-<form action="/record/{{ record._id }}/edit" method="POST">
+<form action="/record/{{ record._id }}?_method=PUT" method="POST">
   <div>
     <label for="name" class="mb-2">名稱:</label>
     <input type="text" id="name" name="name" class="form-control" placeholder="請輸入名稱" value="{{ record.name }}" required>
