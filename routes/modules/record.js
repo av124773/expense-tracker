@@ -67,4 +67,17 @@ router.post('/:id/edit', async(req, res) => {
   res.redirect(`/`)
 })
 
+router.post('/:id/delete', async (req, res) => {
+  const id = req.params.id
+  try {
+    const userRecord = await Record.findById(id)
+
+    await userRecord.remove()
+  } catch (e) {
+    console.log(e)
+  }
+  
+  res.redirect('/')
+})
+
 module.exports = router
