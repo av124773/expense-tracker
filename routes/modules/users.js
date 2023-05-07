@@ -10,7 +10,8 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 router.get('/register', (req, res) => {
@@ -21,6 +22,19 @@ router.post('/register', async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body
     const checkEmail = await User.findOne({ email })
+    const errors = []
+    if ( password !== confirmPassword) {
+      errors.push({ message: '密碼與確認密碼不相符!'})
+    }
+    if (errors.length) {
+      return res.render('register', {
+        errors,
+        name,
+        email,
+        password,
+        confirmPassword
+      })
+    }
     if (checkEmail) {
       console.log('Email already exists.')
       return res.render('register', {
@@ -45,6 +59,7 @@ router.post('/register', async (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success_msg', '你已經成功登出。')
   res.redirect('/users/login')
 })
 
