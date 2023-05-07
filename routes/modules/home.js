@@ -5,6 +5,15 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 const category = require('../../models/category')
 
+const sortType = [
+  { _id: 'asc' },
+  { date: 'asc' },
+  { date: 'desc' },
+  { category: 'asc' },
+  { amount: 'asc' },
+  { amount: 'desc' }
+]
+
 router.get('/', async (req, res) => {
   try {
     const userId = req.user._id

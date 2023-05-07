@@ -36,22 +36,6 @@ router.post('/register', async (req, res) => {
         confirmPassword
       })
     }
-    // if (checkEmail) {
-    //   console.log('Email already exists.')
-    //   return res.render('register', {
-    //     name,
-    //     email,
-    //     password,
-    //     confirmPassword
-    //   })
-    // } else {
-    //   console.log('you can use this email')
-    //   await User.create({
-    //     name,
-    //     email,
-    //     password
-    //   })
-    // }
     if (checkEmail) {
       console.log('Email already exists.')
       return res.render('register', {
