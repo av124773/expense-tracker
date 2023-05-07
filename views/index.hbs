@@ -1,12 +1,79 @@
-
-<ul>
-  {{#each record}}
-  <li>
-    {{this.name}}、{{this.date}}、{{this.amount}}、{{this.userId}}、{{this.categoryId}}
-    <a href="/record/{{this._id}}/edit">edit</a>
-    <form action="/record/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-      <button type="submit">delete</button>
+<div class="row">
+  <div class="col-md-8 m-auto mt-3">
+    <form action="" method="get">
+      <div>
+        <select class="form-select" name="category" id="category" aria-label="sort select">
+          <option selected>選擇排序方式</option>
+          <option value="id">新增順序</option>
+          <option value="date">日期</option>
+          <option value="category">類別</option>
+          <option value="amount">金額</option>
+        </select>
+      </div>
     </form>
-  </li>
-  {{/each}}
-</ul>
+  </div>
+  <div class="col-md-9 m-auto mt-3">
+    <div class="row justify-content-between">
+      <div class="col-auto"><h4>總金額：</h4></div>
+      <div class="col-7 align-self-end">
+        <h1 style="font-size:100px;">{{ totalAmount }}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 m-auto mt-3">
+    <ul class="list-group">
+
+      {{#each record}}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col me-auto">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <div class="row">
+                  <div class="col-auto align-self-center">
+                    <i class="{{ this.icon }}"></i>
+                  </div>
+                  <div class="col-auto align-self-center">
+                    <div>
+                      <h3 style="display: inline; vertical-align: middle;">
+                        {{ this.name }}
+                      </h3>
+                    </div>
+                    <div>
+                      <span>
+                        {{ this.stringDate }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto align-self-center">
+                <h3 style="display: inline; vertical-align: middle;">
+                  {{ this.amount }}
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto align-self-center">
+            <a class="btn btn-success" href="/record/{{this._id}}/edit">edit</a>
+            <form action="/record/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+              <button class="btn btn-danger" type="submit">delete</button>
+            </form>
+          </div>
+        </div>
+      </li>
+      
+      {{/each}}
+
+    </ul>
+  </div>
+  <div class="col-md-8 m-auto mt-3">
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <a class="btn btn-primary" href="/record/new">新增支出</a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+

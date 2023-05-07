@@ -18,16 +18,19 @@ const SEED_RECORD = [
   {
     name: '午餐',
     date: '2019-04-23',
+    stringDate: '2019-04-23',
     amount: 60
   },
   {
     name: '晚餐',
     date: '2019-04-23',
+    stringDate: '2019-04-23',
     amount: 60
   },
   {
     name: '捷運',
     date: '2019-04-23',
+    stringDate: '2019-04-23',
     amount: 120
   },
 ]

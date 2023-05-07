@@ -9,6 +9,10 @@ const recordSchema = new Schema({
     type: Date,
     require: true
   },
+  stringDate: {
+    type: String,
+    require: true
+  },
   amount: {
     type: Number,
     require: true

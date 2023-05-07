@@ -4,6 +4,7 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
+
 function DateToString(date) {
   // getMonth() 是從 0 開始計算的所以要 +1
   const mm = (date.getMonth() + 1).toString() 
@@ -25,18 +26,19 @@ router.post('/', async(req, res) => {
   const { name, date, category, amount } = req.body
   try {
     const getCategory = await Category.findOne({ name: category })
-    console.log(getCategory)
+
     await Record.create({
       name,
       date,
+      stringDate: date,
       amount,
       userId: userId,
       categoryId: getCategory._id
     })
+    res.redirect('/')
   } catch (e) {
     console.log(e)
   }
-  res.redirect('/')
 })
 
 router.get('/:id/edit', async (req, res) => {
@@ -57,14 +59,16 @@ router.put('/:id', async(req, res) => {
 
     getRecord.name = name
     getRecord.date = date
+    getRecord.stringDate = date
     getRecord.category = getCategory
     getRecord.amount = amount
 
     await getRecord.save()
+
+    res.redirect(`/`)
   } catch (e) {
     console.log(e)
   }
-  res.redirect(`/`)
 })
 
 router.delete('/:id', async (req, res) => {
@@ -73,11 +77,11 @@ router.delete('/:id', async (req, res) => {
     const userRecord = await Record.findById(id)
 
     await userRecord.remove()
+
+    res.redirect('/')
   } catch (e) {
     console.log(e)
   }
-  
-  res.redirect('/')
 })
 
 module.exports = router
