@@ -27,6 +27,9 @@ router.post('/register', async (req, res) => {
     if ( password !== confirmPassword) {
       errors.push({ message: '密碼與確認密碼不相符!'})
     }
+    if (checkEmail) {
+      errors.push({ message: '這個信箱已經註冊過了!'})
+    }
     if (errors.length) {
       return res.render('register', {
         errors,
@@ -36,15 +39,6 @@ router.post('/register', async (req, res) => {
         confirmPassword
       })
     }
-    if (checkEmail) {
-      console.log('Email already exists.')
-      return res.render('register', {
-        name,
-        email,
-        password,
-        confirmPassword
-      })
-    } 
     const getSalt = await bcrypt.genSalt(10)
     const getHash = await bcrypt.hash(password, getSalt)
     await User.create({
