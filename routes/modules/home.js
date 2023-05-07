@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
       record.icon = getCategory.icon
       totalAmount += record.amount
     }
-    console.log(userRecord)
     res.render('index', { record: userRecord, totalAmount })
   } catch (e) {
     console.log(e)
