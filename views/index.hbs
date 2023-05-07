@@ -1,13 +1,15 @@
 <div class="row">
   <div class="col-md-8 m-auto mt-3">
-    <form action="/" method="post">
+    <form action="/" method="get">
       <div>
-        <select class="form-select" name="category" id="category" aria-label="sort select">
+        <select class="form-select" name="sort" id="sort" aria-label="sort select" onchange="submit();">
           <option selected>選擇排序方式</option>
-          <option value="id">新增順序</option>
-          <option value="date">日期</option>
-          <option value="category">類別</option>
-          <option value="amount">金額</option>
+          <option value="0">新增順序(舊->新)</option>
+          <option value="1">日期(舊->新)</option>
+          <option value="2">日期(新->舊)</option>
+          <option value="3">類別</option>
+          <option value="4">金額(小->大)</option>
+          <option value="5">日期(大->小)</option>
         </select>
       </div>
     </form>
