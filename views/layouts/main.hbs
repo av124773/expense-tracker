@@ -13,8 +13,11 @@
     <nav class="navbar navbar-dark justify-content-between" style="padding: 8px 16px;
       background-color: #204fe9;">
       <a class="navbar-brand" href="/">
-      {{#if isAuthenticated}}{{ user.name }}{{/if}}
-        的記帳本
+      {{#if isAuthenticated}}
+        {{ user.name }}的記帳本
+      {{else}}
+        家庭記帳本
+      {{/if}}
       </a>
       {{#if isAuthenticated}}
         <a class="btn btn-outline-light" href="/users/logout">Logout</a>

@@ -21,10 +21,10 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', async(req, res) => {
-  // 登入還沒做，userId 先用之前生成的資料擋一下
-  const userId = "6455f9acabe6bc4b78307209"
-  const { name, date, category, amount } = req.body
   try {
+    // 登入還沒做，userId 先用之前生成的資料擋一下
+    const userId = req.user._id
+    const { name, date, category, amount } = req.body
     const getCategory = await Category.findOne({ name: category })
 
     await Record.create({
@@ -42,28 +42,31 @@ router.post('/', async(req, res) => {
 })
 
 router.get('/:id/edit', async (req, res) => {
-  const id = req.params.id
-  const userRecord = await Record.findById(id).lean()
+  const _id = req.params.id
+  const userId = req.user._id
+  const userRecord = await Record.findOne({ _id, userId }).lean()
   const userCategory = await Category.findById(userRecord.categoryId).lean()
   const userRecoreDate = DateToString(userRecord.date)
 
-  res.render('edit', { record: userRecord, date: userRecoreDate, category: userCategory })
+  res.render('edit', { record: userRecord, category: userCategory, date: userRecoreDate })
 })
 
 router.put('/:id', async(req, res) => {
-  const id = req.params.id
-  const { name, date, category, amount } = req.body 
   try {
+    const _id = req.params.id
+    const userId = req.user._id
+    const { name, date, category, amount } = req.body 
+    const userRecord = await Record.findOne({ _id, userId })
     const getCategory = await Category.findOne({ name: category })
-    const getRecord = await Record.findById(id)
 
-    getRecord.name = name
-    getRecord.date = date
-    getRecord.stringDate = date
-    getRecord.category = getCategory
-    getRecord.amount = amount
+    userRecord.name = name
+    userRecord.date = date
+    userRecord.stringDate = date
+    userRecord.category = getCategory.name
+    userRecord.amount = amount
+    userRecord.categoryId = getCategory._id
 
-    await getRecord.save()
+    await userRecord.save()
 
     res.redirect(`/`)
   } catch (e) {
@@ -72,9 +75,10 @@ router.put('/:id', async(req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const id = req.params.id
   try {
-    const userRecord = await Record.findById(id)
+    const _id = req.params.id
+    const userId = req.user._id
+    const userRecord = await Record.findOne({ _id, userId})
 
     await userRecord.remove()
 
