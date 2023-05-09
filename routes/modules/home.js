@@ -3,7 +3,15 @@ const router = express.Router()
 
 const Record = require('../../models/record')
 const Category = require('../../models/category')
-// const category = require('../../models/category')
+
+// const sortType = [
+//   { _id: 'asc' },
+//   { date: 'asc' },
+//   { date: 'desc' },
+//   { category: 'asc' },
+//   { amount: 'asc' },
+//   { amount: 'desc' }
+// ]
 
 const sortType = [
   { _id: 'asc' },
@@ -16,22 +24,24 @@ const sortType = [
 
 router.get('/', async (req, res) => {
   try {
-    let userSort = sortType[0]
-    const sort = req.query.sort
-    if (sort) {
-      userSort = sortType[sort]
-      console.log(req.query)
-    } 
-    
     const userId = req.user._id
-    const userRecord = await Record.find({ userId }).lean().sort(userSort)
+    const selectedCategory = req.query.category
+    let getCategoryId = ''
+    let userRecord = ''
+    if (selectedCategory) {
+      getCategoryId = await Category.find({ name: selectedCategory })
+      userRecord = await Record.find({ userId, categoryId: getCategoryId }).lean().sort({ _id: 'asc' })
+    } else {
+      userRecord = await Record.find({ userId }).lean().sort({ _id: 'asc' })
+    }
+
     let totalAmount = 0
     for (let record of userRecord) {
-      const getCategory = await Category.findById(record.categoryId)
-      record.icon = getCategory.icon
+      const getCategoryIcon = await Category.findById(record.categoryId)
+      record.icon = getCategoryIcon.icon
       totalAmount += record.amount
     }
-    res.render('index', { record: userRecord, totalAmount })
+    res.render('index', { record: userRecord, totalAmount, selectedCategory })
   } catch (e) {
     console.log(e)
   }
